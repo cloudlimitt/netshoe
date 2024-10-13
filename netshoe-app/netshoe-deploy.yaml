@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: netshoe
+  name: netshoe
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: netshoe
+  template:
+    metadata:
+      labels:
+        app: netshoe
+    spec:
+      containers:
+      - args:
+        - -c
+        - while true; do ping localhost; sleep 60;done
+        command:
+        - /bin/bash
+        image: nicolaka/netshoot
+        imagePullPolicy: Always
+        name: netshoe
+        ports:
+        - containerPort: 80
+          protocol: TCP
+----
